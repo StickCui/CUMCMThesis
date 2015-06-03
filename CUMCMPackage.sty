@@ -1,0 +1,378 @@
+% Package for CUMCM
+% Author: Stick Cui.
+% E-mail: Stick_Cui@hotmail.com
+% Time: 2015/4/18
+% Attention: Only can be used with XeLaTex.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{CUMCMPackage}
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\newif\if@nolinenum \@nolinenumfalse
+
+\newif\if@TeXLive \@TeXLivefalse
+
+\DeclareOption{nolinenum}{\@nolinenumtrue}
+\DeclareOption{TeXLive}{\@TeXLivetrue}
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{fontspec}}
+\ProcessOptions\relax
+
+% 常用宏包引用
+\RequirePackage{xcolor}          % color image and color definition
+\RequirePackage{fancyhdr,fancybox}       % personalize page header
+\RequirePackage{graphicx}       % include graphics
+\RequirePackage{ifthen}         % logic options
+\RequirePackage{lastpage}       % refer to the number of last page
+\RequirePackage{listings}       % format source code
+\RequirePackage[toc,page,title,titletoc,header]{appendix}%附录制作
+\RequirePackage{paralist}
+\RequirePackage{setspace}%使用间距宏包
+%======数学公式===========
+\RequirePackage{amsthm,amsfonts}
+\RequirePackage{amsmath,bm}              % AMSLaTeX
+\RequirePackage{amssymb,mathrsfs}        % AMSLaTeX sym-bols
+\RequirePackage{latexsym}
+ 
+\RequirePackage{longtable,multirow,hhline,tabularx,array,makecell,booktabs}       %@@表格相关
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}p{#1}}
+%>{\columncolor{yellow}}
+
+\RequirePackage{flafter}
+\RequirePackage{pifont,calc}
+\RequirePackage{colortbl,booktabs}
+\RequirePackage[a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}%0.75in
+\RequirePackage[T1]{fontenc}
+\RequirePackage[scaled]{berasans}
+\RequirePackage[CJKnumber,SlantFont,BoldFont,CJKchecksingle]{xeCJK}%支持中文
+	\setCJKmainfont{SimSun}
+%	\setCJKfamilyfont{zhkai}{Adobe Kaiti Std}
+	%\setCJKfamilyfont{song}{AR PLBaosong2GBK Light}
+
+%-----设置字体------%
+\setCJKfamilyfont{song}{SimSun}                             %宋体 song  
+\newcommand{\song}{\CJKfamily{song}}
+\setCJKfamilyfont{zhkai}{Adobe Kaiti Std}                   %楷体  
+\newcommand{\kai}{\CJKfamily{kai}}
+\setCJKfamilyfont{hei}{SimHei}                                    %黑体  hei  
+\newcommand{\hei}{\CJKfamily{hei}}
+
+%%%===设置字体大小===  
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     %初号  
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} %小初号  
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      %一号  
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      %二号  
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  %小二号  
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  %三号  
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}%     四号  
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  %小四号  
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    %五号  
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   %小五号  
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  %六号  
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    %七
+
+\RequirePackage{ulem}
+%\RequirePackage[center]{titlesec}%设置section居中显示
+\RequirePackage{titlesec}
+%\titleformat{command}[shape]{format}{label}{sep}{before}[after]
+%形状	说明
+%hang	标题序号与标题内容同在一行，默认值
+%block	将整个标题作为一个段落
+%display	标题序号单独一行
+%runin	标题与首段同在一个段落
+%leftmargin	标题放入左边空
+%rightmargin	标题放入右边空
+%drop	首段绕排于标题
+%warp	类似drop，但可自动调整间距
+%frame	类似display，但有外框
+%用\CJKnumber{\arabic{xxx}}即可。%给计数器加中文
+\if@TeXLive
+	\titleformat{\section}{\centering\hei\sihao\bfseries}{\arabic{section}.}{0.5em}{}%\S\,%设置section居中显示 \thesection
+\else
+	\titleformat{\section}{\centering\hei\sihao\bfseries}{\CJKnumber{\arabic{section}}、}{0em}{}%\S\,%设置section居中显示 \thesection
+\fi
+\titleformat{\subsection}{\hei\sihao\bfseries}{\arabic{section}.\arabic{subsection}}{0.5em}{}
+\titleformat{\subsubsection}{\hei\xiaosihao\bfseries}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}{0.5em}{}
+
+ % Theorem style 
+\newtheorem{theorem}{定理}[section]
+\newtheorem{definition}{定义}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{corollary}{推论}[section]
+\newtheorem{proposition}{性质}[section]
+\newtheorem{example}{例}[section]
+\newtheorem{remark}{注}[section]
+
+% If we are running pdflatex? 以防万一，增加可扩展性
+\RequirePackage{ifpdf}
+
+% style: hyperlinked references
+% 链接风格设置
+\usepackage[bookmarks=true,%
+    linkcolor=black,%
+    citecolor=black,%
+    pagecolor=black,%
+    unicode=true,%utf-8情况下使用该命令可解决书签乱码问题
+    colorlinks=true, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder同时注释掉)
+    pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+    linkcolor=black,%
+    citecolor=black,%
+    pagecolor=black,%
+    urlcolor=black]{hyperref}
+
+% 使整篇文章的首段都有缩进
+%\let\@afterindentfalse\@afterindenttrue\@afterindenttrue
+\RequirePackage{indentfirst}
+\setlength{\parindent}{2em}
+
+%-------定义引用变量-------%
+\newcommand{\@problem}[1]{}
+\newcommand{\problem}[1]{\gdef\@problem{#1}}
+
+\newcommand{\@teamNum}[1]{}
+\newcommand{\teamNum}[1]{\gdef\@teamNum{#1}}
+
+\newcommand{\@Myschool}[1]{}
+\newcommand{\Myschool}[1]{\gdef\@Myschool{#1}}
+
+\newcommand{\@memberOne}[1]{}
+\newcommand{\@memberTwo}[1]{}
+\newcommand{\@memberThree}[1]{}
+\newcommand{\Mymember}[3]{\gdef\@memberOne{#1} \gdef\@memberTwo{#2} \gdef\@memberThree{#3}}
+
+\newcommand{\@supervisor}[1]{}
+\newcommand{\supervisor}[1]{\gdef\@supervisor{#1}}
+
+% 重新定义maketitle
+\def\@maketitle{
+\thispagestyle{empty}
+
+\begin{center}
+\textbf{\large \the\year\ 高教社杯全国大学生数学建模竞赛}
+\end{center}
+
+\begin{center}
+\textbf{\sihao 承  诺  书}
+\end{center}
+
+\begin{spacing}{1.5}%%行间距
+\input{./Com/commitment.txt}
+
+我们参赛选择的题号是（从A/B/C/D中选择一项填写）：\uline{~~~~~~~~~~~~~~~\@problem~~~~~~~~~~~~~~~}% \rule{\textwidth}{0.2pt}
+
+我们的报名参赛队号为（8位数字组成的编号）：\uline{~~~~~~~~~~~~~~~~\@teamNum~~~~~~~~~~~~~~~~}
+
+所属学校（请填写完整的全名）：\uline{~~~~~~~~~~~~~~~~~~~~\@Myschool~~~~~~~~~~~~~~~~~~~~}
+
+参赛队员 (打印并签名) ：1.\uline{~~~~~~~\@memberOne~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~2.\uline{~~~~~~~\@memberTwo~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~3.\uline{~~~~~~~\@memberThree~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
+
+指导教师或指导教师组负责人  (打印并签名)：\uline{~~~~~~~\@supervisor~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
+
+{\xiaosihao \CJKfamily{zhkai}{（论文纸质版与电子版中的以上信息必须一致，只是电子版中无需签名。以上内容请仔细核对，提交后将不再允许做任何修改。如填写错误，论文可能被取消评奖资格。）}}
+%\CJKfamily{kai} \CJKfontspec{SimHei}
+
+\rightline{日期：\uline{~\the\year\ }年\uline{~\the\month\ }月\uline{~\the\day\ }日}
+
+\noindent\rule{\textwidth}{0.2pt}
+
+赛区评阅编号（由赛区组委会评阅前进行编号）：
+\end{spacing}
+\newpage
+\thispagestyle{empty}
+
+\begin{center}
+\textbf{\large \the\year\ 高教社杯全国大学生数学建模竞赛}
+\end{center}
+
+\begin{center}
+\textbf{\sihao 编 号 专 用 页}
+\end{center}
+
+\vspace*{1.5em}
+赛区评阅编号（由赛区组委会评阅前进行编号）：
+
+\vspace*{5em}
+
+赛区评阅记录（可供赛区评阅时使用）：
+\begin{center}
+\begin{tabular}{|C{0.06\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|C{0.061\textwidth}|}
+\hline
+{评}&&&&&&&&&&\\
+{阅}&&&&&&&&&&\\
+{人}&&&&&&&&&&\\
+\hline
+{评}&&&&&&&&&&\\
+{  }&&&&&&&&&&\\
+{分}&&&&&&&&&&\\
+\hline
+{备}&&&&&&&&&&\\
+{  }&&&&&&&&&&\\
+{注}&&&&&&&&&&\\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace*{5em}
+全国统一编号（由赛区组委会送交全国前编号）：
+
+\vspace*{7.5em}
+全国评阅编号（由全国组委会评阅前进行编号）：
+
+\newpage
+\pagenumbering{arabic}%开始编页码（阿拉伯数字）
+\phantomsection%生成该页的链接
+\addcontentsline{toc}{section}{\@title}
+\begin{center}
+	\bf\Large{\hei\@title}
+\end{center}
+%\centerline{\large\bf\abstractname}
+%\noindent\usebox\@abstract
+\phantomsection%生成该页的链接
+\addcontentsline{toc}{section}{\abstractname}
+\make@abstract
+}
+
+%------重新定义摘要-----%
+\def\keywordsname{\bf 关键词：}
+\newbox\@keywords
+\setbox\@keywords\hbox{}
+\def\keywords{\bgroup\global\setbox\@keywords\vbox\bgroup\noindent\leftskip0cm}
+\def\endkeywords{\egroup\egroup}%
+
+\def\@abstract{}
+\newbox\@abstract%
+\setbox\@abstract\hbox{}%
+\def\abstract{\bgroup\global\setbox\@abstract\vbox\bgroup\hsize\textwidth\leftskip1cm\rightskip1cm}%
+\def\endabstract{\egroup\egroup}
+
+\def\make@abstract{%
+\par%
+\centerline{\bf\hei\sihao\abstractname}\vskip5pt\par%
+\noindent\usebox\@abstract\par%
+\vspace*{1em}
+\noindent\hskip1cm\keywordsname\ \usebox\@keywords%
+\vskip10pt%
+}
+
+%-------尝试重定义附录-------%
+\newbox\@appendix
+\setbox\@appendix\hbox{}
+\def\appendix{\bgroup\global\setbox\@appendix\vbox\bgroup}
+\def\endappendix{\egroup\egroup}%
+
+
+\def\appendices{
+\par%
+\phantomsection%生成该页的链接
+\addcontentsline{toc}{section}{\appendixname}%将附录添加到目录中
+\centerline{\bf\hei\sihao\appendixname}\vskip5pt\par%
+\noindent\usebox\@appendix\par%
+}
+
+%定义子附录
+\newbox\@subappendixbox
+\setbox\@subappendixbox\hbox{}
+\def\subappendixbox{\bgroup\global\setbox\@subappendixbox\vbox\bgroup\hsize\textwidth\leftskip1cm\rightskip1cm}
+\def\endsubappendixbox{\egroup\egroup}%
+
+\newcounter{sApp}
+\setcounter{sApp}{1}
+\def\subappendix{
+\vspace*{1em}
+\par%
+\phantomsection%生成该页的链接
+\addcontentsline{toc}{subsection}{\appendixname~\Roman{sApp}}%将子附录添加到目录中
+\noindent{\bf\hei\sihao\appendixname~\Roman{sApp}}\vskip1pt\par%\arabic \Roman \CJKnumber{\arabic{sApp}}
+\addtocounter{sApp}{1}
+
+\noindent\usebox\@subappendixbox\par%
+}
+%--------------------------%
+
+
+%更改文章摘要标题等为中文
+\renewcommand\abstractname{摘~~要}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\contentsname}{目~~录}
+\renewcommand\refname{参考文献}
+\renewcommand{\appendixname}{附~~录}%不起作用
+\renewcommand{\listfigurename}{插图目录}
+\renewcommand{\listtablename}{表格目录}
+\renewcommand{\indexname}{索~~引}
+
+% 附录中的代码风格
+% style: list typesetting
+\definecolor{grey}{rgb}{0.8,0.8,0.8}
+\definecolor{darkgreen}{rgb}{0,0.3,0}
+\definecolor{darkblue}{rgb}{0,0,0.3}
+\definecolor{darkred}{rgb}{0.7,0.2,0.2}
+%\def\lstbasicfont{\fontfamily{pcr}\selectfont\footnotesize} %pcr
+\if@nolinenum
+
+\lstset{%
+% indexing
+%    numbers=left,%行号支持
+   % numberstyle=\small,%
+% character display
+	breaklines,
+    showstringspaces=false,
+    showspaces=false,%
+    tabsize=4,%
+% style
+    frame=lines,%
+    basicstyle=\small,%{\footnotesize\lstbasicfont}
+    %backgroundcolor=\color[RGB]{245,245,244},%背景色
+    rulesepcolor=\color{red!20!green!20!blue!20!},
+    keywordstyle=\color{darkred}\bfseries,%
+    identifierstyle=,%
+    numberstyle=\color[RGB]{0,192,192},
+    commentstyle=\color{darkgreen},%\itshape,%
+    stringstyle=\color{black},%
+    extendedchars=false,    
+    escapeinside=``
+}
+
+
+\else
+
+\lstset{%
+% indexing
+    numbers=left,%行号支持
+   % numberstyle=\small,%
+% character display
+	breaklines,
+    showstringspaces=false,
+    showspaces=false,%
+    tabsize=4,%
+% style
+    frame=lines,%
+    basicstyle=\small,%{\footnotesize\lstbasicfont}
+    %backgroundcolor=\color[RGB]{245,245,244},%背景色
+    rulesepcolor=\color{red!20!green!20!blue!20!},
+    keywordstyle=\color{darkred}\bfseries,%
+    identifierstyle=,%
+    numberstyle=\color[RGB]{0,192,192},
+    commentstyle=\color{darkgreen},%\itshape,%
+    stringstyle=\color{black},%
+    extendedchars=false,    
+    escapeinside=``
+}
+
+\fi
+
+\lstloadlanguages{C,C++,Java,Matlab,Mathematica,R}
+
+%------定义代码标题------%
+\newcommand{\codetitle}[1]{\noindent\textbf{\color{red}{#1}}}
+
+
+
+\endinput
